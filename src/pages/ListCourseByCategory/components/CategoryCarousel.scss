@@ -1,0 +1,46 @@
+.CategoryCarousel {
+  position: relative;
+  .item {
+    .btnLogo {
+      background-color: white;
+      color: black;
+      border-radius: 10px;
+      transition: all 0.5s ease; /* Chỉ áp dụng transition cho background */
+
+      &:hover {
+        box-shadow: none; /* Loại bỏ box-shadow */
+        background-color: black;
+        color: white;
+      }
+
+      &:focus {
+        outline: none; /* Loại bỏ outline khi focus */
+        box-shadow: none; /* Loại bỏ box-shadow */
+      }
+    }
+  }
+
+  .owl-nav {
+    .owl-prev {
+      position: absolute;
+      top: -55px;
+      right: 45px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1px solid gray !important;
+    }
+
+    .owl-next {
+      position: absolute;
+      top: -55px;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1px solid gray !important;
+    }
+  }
+}

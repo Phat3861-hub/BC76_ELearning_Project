@@ -5,12 +5,23 @@ import { DownOutlined } from "@ant-design/icons";
 const DropdownHeader = ({ buttonContent, items }) => {
   const [open, setOpen] = useState(false);
 
-  // Cấu trúc items mới cho Dropdown
+  // Cấu trúc items mới cho Dropdown, thêm onClick để đóng dropdown khi bấm vào item
+  const handleMenuClick = () => {
+    setOpen(false); // Đóng dropdown khi item được chọn
+  };
+
+  const modifiedItems = items.map((item) => ({
+    ...item,
+    onClick: () => {
+      item.onClick && item.onClick(); // Gọi onClick của item gốc (nếu có)
+      handleMenuClick(); // Đóng dropdown sau khi click
+    },
+  }));
 
   return (
     <Dropdown
       menu={{
-        items,
+        items: modifiedItems,
       }}
       trigger={["click"]}
       open={open}

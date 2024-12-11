@@ -12,6 +12,7 @@ import {
   ButtonOutline,
 } from "../../../../components/Button/buttonCustom";
 import ReponsiveMenu from "./ReponsiveMenu";
+import logo from "/img/logo.png";
 
 const HeaderTemplate = () => {
   const [listDanhMucKhoaHoc, setListDanhMucKhoaHoc] = useState([]);
@@ -41,7 +42,15 @@ const HeaderTemplate = () => {
   const itemListDanhMucKhoaHoc = useMemo(() => {
     return listDanhMucKhoaHoc.map((item) => ({
       key: item.maDanhMuc,
-      label: item.tenDanhMuc, // Ten danh muc
+      label: (
+        <>
+          <NavLink
+            to={`/list-course-by-category/category?maDanhMuc=${item.maDanhMuc}`}
+          >
+            {item.tenDanhMuc}
+          </NavLink>
+        </>
+      ), // Ten danh muc
     }));
   }, [listDanhMucKhoaHoc]);
 
@@ -65,6 +74,7 @@ const HeaderTemplate = () => {
   useEffect(() => {
     KhoaHocService.getDanhMucKhoaHoc()
       .then((res) => {
+        console.log(res.data);
         setListDanhMucKhoaHoc(res.data);
       })
       .catch((err) => {
@@ -96,11 +106,7 @@ const HeaderTemplate = () => {
         <div className="container flex justify-between  items-center py-5">
           <div className="flex items-center">
             <NavLink to={"/"} className="mr-5">
-              <img
-                className="max-h-10 sm:max-h-14"
-                src="./img/logo.png"
-                alt="Logo"
-              />
+              <img className="max-h-10 sm:max-h-14" src={logo} alt="Logo" />
             </NavLink>
             <Dropdown
               overlayClassName="dropdown-suggest"
@@ -164,7 +170,7 @@ const HeaderTemplate = () => {
             </div>
             <div className="xl:hidden ml-5 text-white text-3xl">
               <button onClick={() => setOpenHambur(!openHambur)}>
-                <i class="fa-solid fa-bars"></i>
+                <i className="fa-solid fa-bars"></i>
               </button>
             </div>
           </div>

@@ -29,3 +29,21 @@ export const ButtonOutline = ({
     </button>
   );
 };
+export const ButtonContact = ({
+  content,
+  icon,
+  onClick,
+  type = "button",
+  className = "",
+}) => {
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      className={`py-1 px-2 md:py-3 md:px-8 border border-white text-white duration-200 rounded-md hover:bg-white hover:text-black ${className}`}
+    >
+      {content}
+      <i className="fa-solid fa-phone ml-2"></i>
+    </button>
+  );
+};
