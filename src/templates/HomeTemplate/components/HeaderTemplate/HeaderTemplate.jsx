@@ -30,10 +30,9 @@ const HeaderTemplate = () => {
   };
 
   // Hàm xử lý khi người dùng gửi form tìm kiếm
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
+  const handleSearchSubmit = () => {
     if (key.trim()) {
-      navigate(`#`); // Điều hướng (trong trường hợp này là không đi đâu cả)
+      navigate(`/list-course-by-search/search?tenKhoaHoc=${key}&MaNhom=GP01`); // Điều hướng đến trang kết quả tìm kiếm
       setOpenDropdown(false); // Đóng dropdown khi tìm kiếm
     }
   };
@@ -43,13 +42,11 @@ const HeaderTemplate = () => {
     return listDanhMucKhoaHoc.map((item) => ({
       key: item.maDanhMuc,
       label: (
-        <>
-          <NavLink
-            to={`/list-course-by-category/category?maDanhMuc=${item.maDanhMuc}`}
-          >
-            {item.tenDanhMuc}
-          </NavLink>
-        </>
+        <NavLink
+          to={`/list-course-by-category/category?maDanhMuc=${item.maDanhMuc}`}
+        >
+          {item.tenDanhMuc}
+        </NavLink>
       ), // Ten danh muc
     }));
   }, [listDanhMucKhoaHoc]);
@@ -74,7 +71,6 @@ const HeaderTemplate = () => {
   useEffect(() => {
     KhoaHocService.getDanhMucKhoaHoc()
       .then((res) => {
-        console.log(res.data);
         setListDanhMucKhoaHoc(res.data);
       })
       .catch((err) => {
@@ -94,7 +90,6 @@ const HeaderTemplate = () => {
           console.log(err);
         });
     } else {
-      // Nếu giá trị tìm kiếm trống, đóng dropdown và reset danh sách tìm kiếm
       setListSearch([]);
       setOpenDropdown(false);
     }
@@ -103,7 +98,7 @@ const HeaderTemplate = () => {
   return (
     <>
       <nav className="bg-black">
-        <div className="container flex justify-between  items-center py-5">
+        <div className="container flex justify-between items-center py-5">
           <div className="flex items-center">
             <NavLink to={"/"} className="mr-5">
               <img className="max-h-10 sm:max-h-14" src={logo} alt="Logo" />
@@ -119,10 +114,11 @@ const HeaderTemplate = () => {
               open={openDropdown}
             >
               <form
-                onSubmit={handleSearchSubmit}
+                onSubmit={(e) => e.preventDefault()}
                 className="hidden xl:block 2xl:w-96"
               >
                 <InputSearch
+                  onSearch={handleSearchSubmit} // Gọi trực tiếp handleSearchSubmit
                   handleClick={() => setOpenDropdown(true)}
                   handleChange={handleChangeKey}
                   value={key}
@@ -133,7 +129,7 @@ const HeaderTemplate = () => {
           </div>
           <div className="flex items-center">
             <div className="hidden xl:block">
-              <ul className="flex items-center  text-white text-xs">
+              <ul className="flex items-center text-white text-xs">
                 <li>
                   <DropdownHeader
                     buttonContent="Danh mục khóa học"
@@ -156,15 +152,11 @@ const HeaderTemplate = () => {
             </div>
             <div className="inline">
               <ButtonGhost
-                onClick={() => {
-                  navigate(pathDefault.signIn);
-                }}
+                onClick={() => navigate(pathDefault.signIn)}
                 content={"Sign In"}
               />
               <ButtonOutline
-                onClick={() => {
-                  navigate(pathDefault.signUp);
-                }}
+                onClick={() => navigate(pathDefault.signUp)}
                 content={"Join"}
               />
             </div>
