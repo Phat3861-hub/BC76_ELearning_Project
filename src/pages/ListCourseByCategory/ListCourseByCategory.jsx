@@ -6,10 +6,10 @@ import { useLocation, useParams } from "react-router-dom";
 import { KhoaHocService } from "../../services/khoaHoc.service";
 import ListJobByCategory from "./components/ListJobByCategory";
 import CategoryCompany from "./components/CategoryCompany";
+import NewPostCarousel from "./components/NewPostCarousel";
 
 const ListCourseByCategory = () => {
   const location = useLocation();
-  // Lấy `name` từ query string
   const query = new URLSearchParams(location.search);
   const maDanhMuc = query.get("maDanhMuc");
   const categoryMapping = {
@@ -29,6 +29,7 @@ const ListCourseByCategory = () => {
       <CategoryCarousel />
       <ListJobByCategory maDanhMuc={maDanhMuc} tenDanhMuc={tenDanhMuc} />
       <CategoryCompany />
+      <NewPostCarousel />
     </>
   );
 };

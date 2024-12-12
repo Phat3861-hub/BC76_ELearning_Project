@@ -1,0 +1,41 @@
+.newPostContent {
+  .NewPostCarousel {
+    position: relative;
+    .item {
+      h2 {
+        max-height: 40px;
+        margin-bottom: 30px;
+      }
+    }
+    .owl-nav {
+      transition: all 0.5s;
+      .disabled {
+        background-color: #f9a60099 !important;
+      }
+      .owl-prev {
+        position: absolute;
+        bottom: 0;
+        right: 45px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #f9a800;
+        border: 1px solid #f9a800 !important;
+      }
+
+      .owl-next {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #f9a800;
+        border: 1px solid #f9a800 !important;
+      }
+    }
+  }
+}
+.bg-newPost {
+  background-color: #f5f5f5;
+}

@@ -3,7 +3,7 @@ import { KhoaHocService } from "../../../services/khoaHoc.service";
 import { NavLink } from "react-router-dom";
 import { Pagination } from "antd";
 import "./ListJobByCategory.scss";
-
+const defaultImage = "/img/logo-title.png";
 const ListJobByCategory = ({ maDanhMuc, tenDanhMuc }) => {
   const [listDanhSachKhoaHocTheoDanhMuc, setListDanhSachKhoaHocTheoDanhMuc] =
     useState([]);
@@ -27,6 +27,9 @@ const ListJobByCategory = ({ maDanhMuc, tenDanhMuc }) => {
     startIndex,
     endIndex
   );
+  const handleImageError = (e) => {
+    e.target.src = defaultImage; // Set default image if the original one fails to load
+  };
 
   return (
     <div className="py-10">
@@ -46,6 +49,7 @@ const ListJobByCategory = ({ maDanhMuc, tenDanhMuc }) => {
                     src={khoaHoc.hinhAnh}
                     alt={khoaHoc.tenKhoaHoc}
                     className="w-full h-40 object-cover rounded"
+                    onError={handleImageError} // Handle image error
                   />
                 </NavLink>
               </div>
