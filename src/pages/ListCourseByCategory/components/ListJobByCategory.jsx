@@ -4,11 +4,11 @@ import { NavLink } from "react-router-dom";
 import { Pagination } from "antd";
 import "./ListJobByCategory.scss";
 const defaultImage = "/img/logo-title.png";
-const ListJobByCategory = ({ maDanhMuc, tenDanhMuc }) => {
+const ListJobByCategory = ({ maDanhMuc, tenDanhMuc, soTrang = 8 }) => {
   const [listDanhSachKhoaHocTheoDanhMuc, setListDanhSachKhoaHocTheoDanhMuc] =
     useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(8); // Số item trên mỗi trang (có thể tùy chỉnh)
+  const [pageSize, setPageSize] = useState(soTrang); // Số item trên mỗi trang (có thể tùy chỉnh)
 
   useEffect(() => {
     KhoaHocService.getDanhSachKhoaHocTheoDanhMuc(maDanhMuc)
@@ -44,7 +44,9 @@ const ListJobByCategory = ({ maDanhMuc, tenDanhMuc }) => {
               className="itemKhoaHocDanhMuc border p-4 rounded-lg space-y-3 flex flex-col justify-between h-full"
             >
               <div className="mb-2 border-black imageWrapper">
-                <NavLink to="#">
+                <NavLink
+                  to={`/course-detail/id?maKhoaHoc=${khoaHoc.maKhoaHoc}`}
+                >
                   <img
                     src={khoaHoc.hinhAnh}
                     alt={khoaHoc.tenKhoaHoc}
@@ -54,7 +56,9 @@ const ListJobByCategory = ({ maDanhMuc, tenDanhMuc }) => {
                 </NavLink>
               </div>
               <div className="space-y-3 flex-grow">
-                <NavLink to="#">
+                <NavLink
+                  to={`/course-detail/id?maKhoaHoc=${khoaHoc.maKhoaHoc}`}
+                >
                   <h2 className="tenKhoaHoc text-lg font-semibold">
                     {khoaHoc.tenKhoaHoc}
                   </h2>
@@ -68,7 +72,7 @@ const ListJobByCategory = ({ maDanhMuc, tenDanhMuc }) => {
               </div>
               <div className="mt-4">
                 <NavLink
-                  to="#"
+                  to={`/course-detail/id?maKhoaHoc=${khoaHoc.maKhoaHoc}`}
                   className="py-2 px-3 border border-black rounded-lg hover:bg-black hover:text-white duration-500 block text-center"
                 >
                   Ghi Danh

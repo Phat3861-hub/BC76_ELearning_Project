@@ -1,0 +1,18 @@
+.CourseDetailBanner_overplay {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(45, 45, 45, 0.6) !important;
+}
+.CourseDetailBanner_overplay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(45, 45, 45, 0.6);
+  z-index: 1; // Đặt z-index cho overlay thấp hơn để phần tử khác nổi bật hơn
+}
