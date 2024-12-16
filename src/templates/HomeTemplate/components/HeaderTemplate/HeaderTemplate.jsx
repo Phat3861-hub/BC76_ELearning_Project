@@ -13,6 +13,7 @@ import {
 } from "../../../../components/Button/buttonCustom";
 import ReponsiveMenu from "./ReponsiveMenu";
 import logo from "/img/logo.png";
+const defaultImage = "/img/logo-title.png";
 
 const HeaderTemplate = () => {
   const [listDanhMucKhoaHoc, setListDanhMucKhoaHoc] = useState([]);
@@ -23,6 +24,9 @@ const HeaderTemplate = () => {
   const [value] = useDebounce(key, 1000); // Debounce key input to avoid excessive API calls
 
   const navigate = useNavigate();
+  const handleImageError = (e) => {
+    e.target.src = defaultImage; // Set default image if the original one fails to load
+  };
 
   // Hàm xử lý thay đổi giá trị tìm kiếm (key)
   const handleChangeKey = (event) => {
@@ -56,8 +60,16 @@ const HeaderTemplate = () => {
     return listSearch.slice(0, 4).map((item) => ({
       key: item.id,
       label: (
-        <NavLink to={`#`} className="flex items-center">
-          <img src={item.hinhAnh} className="w-16 h-16 me-3" alt="" />
+        <NavLink
+          to={`/course-detail/id?maKhoaHoc=${item.maKhoaHoc}`}
+          className="flex items-center"
+        >
+          <img
+            onError={handleImageError}
+            src={item.hinhAnh}
+            className="w-16 h-16 me-3"
+            alt=""
+          />
           <div>
             <h4>{item.tenKhoaHoc}</h4>
             <p>{item.danhGia}</p>
@@ -83,6 +95,7 @@ const HeaderTemplate = () => {
     if (value) {
       KhoaHocService.getDanhSachKhoaHocTheoTen(value)
         .then((res) => {
+          console.log(res.data);
           setListSearch(res.data);
           setOpenDropdown(true);
         })

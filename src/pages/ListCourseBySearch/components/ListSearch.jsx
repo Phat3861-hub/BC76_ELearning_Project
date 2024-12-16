@@ -28,6 +28,7 @@ const ListSearch = ({ ListSearch }) => {
       <div className="container space-y-10">
         {currentCourses.map((item) => (
           <NavLink
+            to={`/course-detail/id?maKhoaHoc=${item.maKhoaHoc}`}
             key={item.maKhoaHoc}
             className="border border-black flex items-center gap-10 p-5 bg-slate-100 rounded-xl hover:scale-105 duration-500 md:flex-row flex-col"
           >
