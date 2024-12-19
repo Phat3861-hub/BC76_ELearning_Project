@@ -9,6 +9,7 @@ import ScrollToTop from "react-scroll-to-top";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import ListCourseBySearch from "./pages/ListCourseBySearch/ListCourseBySearch";
 import CourseDetailTemplate from "./pages/CourseDetail/CourseDetailTemplate";
+import UserInfo from "./pages/UserInfo/UserInfo";
 const HomeTemplate = React.lazy(() =>
   import("./templates/HomeTemplate/HomeTemplate")
 );
@@ -42,6 +43,14 @@ const arrRoutes = [
         element: (
           <Suspense>
             <CourseDetailTemplate />
+          </Suspense>
+        ),
+      },
+      {
+        path: pathDefault.userInfo,
+        element: (
+          <Suspense>
+            <UserInfo />
           </Suspense>
         ),
       },

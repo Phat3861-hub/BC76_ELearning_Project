@@ -4,7 +4,6 @@ import { KhoaHocService } from "../../services/khoaHoc.service";
 import CourseDetailBanner from "./components/CourseDetailBanner";
 import CourseDetailInfo from "./components/CourseDetailInfo/CourseDetailInfo";
 import NewPostCarousel from "../ListCourseByCategory/components/NewPostCarousel";
-import CourseRelate from "./components/CourseRelate";
 import ListJobByCategory from "../ListCourseByCategory/components/ListJobByCategory";
 
 const CourseDetailTemplate = () => {
@@ -45,6 +44,8 @@ const CourseDetailTemplate = () => {
         <CourseDetailInfo
           hinhAnh={courseDetail.hinhAnh}
           moTa={courseDetail.moTa}
+          tenKhoaHoc={courseDetail.tenKhoaHoc}
+          maKhoaHoc={courseDetail.maKhoaHoc}
         />
       )}
       {courseDetail && (

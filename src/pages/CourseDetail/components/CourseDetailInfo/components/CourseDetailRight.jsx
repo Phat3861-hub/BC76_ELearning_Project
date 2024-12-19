@@ -3,12 +3,45 @@ import {
   CalendarOutlined,
   FieldTimeOutlined,
 } from "@ant-design/icons";
-import { Card } from "antd";
+import { Card, message } from "antd";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./CourseDetailRight.scss";
+import { nguoiDungService } from "../../../../../services/nguoiDung.service";
 
-const CourseDetailRight = () => {
+const CourseDetailRight = ({ tenKhoaHoc }) => {
+  const navigate = useNavigate();
+  const dataLocal = localStorage.getItem("userInfo");
+  const dataUser = JSON.parse(dataLocal);
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const maKhoaHoc = query.get("maKhoaHoc");
+  console.log(tenKhoaHoc, maKhoaHoc);
+  const handleEnrollment = async () => {
+    if (!dataUser) {
+      message.warning("Bạn cần đăng nhập để ghi danh.");
+      navigate("/login"); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+      return;
+    }
+
+    const enrollmentData = {
+      maKhoaHoc: maKhoaHoc,
+      taiKhoan: dataUser.taiKhoan,
+    };
+
+    try {
+      const response = await nguoiDungService.dangKyKhoaHoc(enrollmentData);
+      if (response.status === 200) {
+        console.log(response);
+        message.success("Ghi danh thành công!");
+      } else {
+        message.error("Đã xảy ra lỗi khi ghi danh, vui lòng thử lại.");
+      }
+    } catch (error) {
+      message.error(error.response?.data || "Đã xảy ra lỗi khi ghi danh.");
+    }
+  };
+
   return (
     <div className="lg:mt-0  mt-10">
       <Card
@@ -19,7 +52,7 @@ const CourseDetailRight = () => {
         <div className="space-y-5">
           <p className="font-bold text-lg">
             <CalendarOutlined className="mr-2" />
-            Bootcamp BE JAVA 09
+            {tenKhoaHoc}
           </p>
           <p className="text-lg">
             <FieldTimeOutlined className="mr-2" />
@@ -32,11 +65,13 @@ const CourseDetailRight = () => {
           </p>
         </div>
         <div className="mt-5 text-center">
-          <NavLink>
-            <button className="py-2 px-10 text-center border border-black">
-              GHI DANH NGAY
-            </button>
-          </NavLink>
+          <button
+            type="button"
+            className="py-2 px-10 text-center border border-black"
+            onClick={handleEnrollment}
+          >
+            GHI DANH NGAY
+          </button>
         </div>
       </Card>
     </div>
