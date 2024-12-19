@@ -1,0 +1,16 @@
+.ant-tabs {
+  .ant-tabs-nav {
+    .ant-tabs-tab-active {
+      .ant-tabs-tab-btn {
+        color: #fde047 !important;
+      }
+    }
+  }
+  .ant-tabs-tabpane {
+    min-height: 40vh;
+  }
+}
+
+.ant-tabs-ink-bar {
+  background-color: #fde047 !important;
+}
