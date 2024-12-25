@@ -47,4 +47,78 @@ export const nguoiDungService = {
       },
     });
   },
+  layDanhSachNguoiDung: async () => {
+    return await http.get("/QuanLyNguoiDung/LayDanhSachNguoiDung");
+  },
+  xoaNguoiDung: (taiKhoan) => {
+    return http.delete(`/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${taiKhoan}`, {
+      headers: {
+        Authorization: `Bearer ${dataUser.accessToken}`,
+      },
+    });
+  },
+  themNguoiDung: (data) => {
+    return http.post(`/QuanLyNguoiDung/ThemNguoiDung`, data, {
+      headers: {
+        Authorization: `Bearer ${dataUser.accessToken}`,
+      },
+    });
+  },
+  timKiemNguoiDung: (key) => {
+    return http.get(`/QuanLyNguoiDung/TimKiemNguoiDung?tuKhoa=${key}`);
+  },
+  capNhatNguoiDung: (data) => {
+    return http.put("/QuanLyNguoiDung/CapNhatThongTinNguoiDung", data, {
+      headers: {
+        Authorization: `Bearer ${dataUser.accessToken}`,
+      },
+    });
+  },
+  layDanhSachKhoaHocNguoiDungChuaGhiDanh: (taiKhoan) => {
+    return http.post(
+      `/QuanLyNguoiDung/LayDanhSachKhoaHocChuaGhiDanh?TaiKhoan=${taiKhoan}`,
+      taiKhoan,
+      {
+        headers: {
+          Authorization: `Bearer ${dataUser.accessToken}`,
+        },
+      }
+    );
+  },
+  layDanhSachKhoaHocChoXetDuyet: (taiKhoan) => {
+    return http.post(
+      `/QuanLyNguoiDung/LayDanhSachKhoaHocChoXetDuyet`,
+      taiKhoan,
+      {
+        headers: {
+          Authorization: `Bearer ${dataUser.accessToken}`,
+        },
+      }
+    );
+  },
+  layDanhSachKhoaHocDaXetDuyet: (taiKhoan) => {
+    return http.post(
+      `/QuanLyNguoiDung/LayDanhSachKhoaHocDaXetDuyet`,
+      taiKhoan,
+      {
+        headers: {
+          Authorization: `Bearer ${dataUser.accessToken}`,
+        },
+      }
+    );
+  },
+  layDanhSachHocVienKhoaHoc: (data) => {
+    return http.post(`/QuanLyNguoiDung/LayDanhSachHocVienKhoaHoc`, data, {
+      headers: {
+        Authorization: `Bearer ${dataUser.accessToken}`,
+      },
+    });
+  },
+  layDanhSachHocVienChoXetDuyet: (data) => {
+    return http.post(`/QuanLyNguoiDung/LayDanhSachHocVienChoXetDuyet`, data, {
+      headers: {
+        Authorization: `Bearer ${dataUser.accessToken}`,
+      },
+    });
+  },
 };
