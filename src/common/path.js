@@ -5,6 +5,8 @@ export const pathDefault = {
   courseDetail: "/course-detail/:id",
   userInfo: "/user-info",
   admin: "/admin",
+  manageCourse: "/admin/manage-course",
+  manageUser: "/admin/manage-user",
   signIn: "/sign-in",
   signUp: "/sign-up",
 };
