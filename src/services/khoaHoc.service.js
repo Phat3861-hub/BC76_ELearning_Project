@@ -36,6 +36,13 @@ export const KhoaHocService = {
       },
     });
   },
+  uploadHinhAnh: (data) => {
+    return http.post(`/QuanLyKhoaHoc/UploadHinhAnhKhoaHoc`, data, {
+      headers: {
+        Authorization: `Bearer ${dataUser.accessToken}`,
+      },
+    });
+  },
   xoaKhoaHoc: (maKhoaHoc) => {
     return http.delete(`/QuanLyKhoaHoc/XoaKhoaHoc?MaKhoaHoc=${maKhoaHoc}`, {
       headers: {
@@ -43,7 +50,11 @@ export const KhoaHocService = {
       },
     });
   },
-  suaKhoaHoc: (data) => {
-    return http.put(`/QuanLyKhoaHoc/CapNhatKhoaHoc`, data);
+  capNhatKhoaHoc: (data) => {
+    return http.put(`/QuanLyKhoaHoc/CapNhatKhoaHoc`, data, {
+      headers: {
+        Authorization: `Bearer ${dataUser.accessToken}`,
+      },
+    });
   },
 };

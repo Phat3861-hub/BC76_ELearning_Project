@@ -82,7 +82,7 @@ const FormAddCourse = ({ handleCloseModal, layDanhSachKhoaHoc }) => {
       ),
     }),
     onSubmit: (values, { resetForm }) => {
-      KhoaHocService.themKhoahoc(values)
+      KhoaHocService.themKhoaHoc(values)
         .then((res) => {
           const { tenKhoaHoc, maNhom } = values;
           if (img) {
