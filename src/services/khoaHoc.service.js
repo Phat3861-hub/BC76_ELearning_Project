@@ -1,6 +1,7 @@
 import { http } from "./config";
 const dataLocal = localStorage.getItem("userInfo");
 const dataUser = JSON.parse(dataLocal);
+// console.log(dataUser.accessToken);
 export const KhoaHocService = {
   getDanhSachKhoaHoc: () => {
     return http.get(`/QuanLyKhoaHoc/LayDanhSachKhoaHoc`);
@@ -27,5 +28,22 @@ export const KhoaHocService = {
         Authorization: `Bearer ${dataUser.accessToken}`,
       },
     });
+  },
+  themKhoaHoc: (data) => {
+    return http.post(`/QuanLyKhoaHoc/ThemKhoaHoc`, data, {
+      headers: {
+        Authorization: `Bearer ${dataUser.accessToken}`,
+      },
+    });
+  },
+  xoaKhoaHoc: (maKhoaHoc) => {
+    return http.delete(`/QuanLyKhoaHoc/XoaKhoaHoc?MaKhoaHoc=${maKhoaHoc}`, {
+      headers: {
+        Authorization: `Bearer ${dataUser.accessToken}`,
+      },
+    });
+  },
+  suaKhoaHoc: (data) => {
+    return http.put(`/QuanLyKhoaHoc/CapNhatKhoaHoc`, data);
   },
 };

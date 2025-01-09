@@ -28,10 +28,10 @@ const ListCourseBySearch = () => {
     }
   }, [name]);
   return (
-    <>
+    <div className="pt-24">
       <SearchHeader soLuong={ListCourseBySearch.length} search={name} />
       <ListSearch ListSearch={ListCourseBySearch} />
-    </>
+    </div>
   );
 };
 

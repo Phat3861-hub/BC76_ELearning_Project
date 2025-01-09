@@ -1,0 +1,34 @@
+.head-banner {
+  background-image: url("https://cybersoft.edu.vn/wp-content/uploads/2019/02/IMG_2107.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 500px;
+  position: relative;
+  &::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(7, 7, 7, 0.84);
+    z-index: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .head-banner {
+    padding-top: 50px;
+    .play-btn {
+      display: none;
+    }
+    .content {
+      text-align: center;
+      width: 100%;
+      h2 {
+        font-size: 35px;
+      }
+    }
+  }
+}

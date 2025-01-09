@@ -3,4 +3,52 @@
 @tailwind utilities;
 body {
   font-family: "Roboto", sans-serif;
+  position: relative;
 }
+.bp-color {
+  background: linear-gradient(to right, #7462f9 35%, #df3ef8 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.bp-play-button {
+  background: linear-gradient(to right, #7462f9 35%, #df3ef8 100%);
+  /* border-image-source: linear-gradient(to right, #7462f9 35%, #df3ef8 100%);
+  border-image-width: 8px;
+  border-image-slice: 1;
+  border-radius: 50%; */
+}
+textarea {
+  height: 200px !important;
+}
+.bp-bg {
+  background-image: linear-gradient(
+    to left,
+    #227df9 0%,
+    #7462f9 25%,
+    #df3ef8 50%,
+    #7462f9 75%,
+    #227df9 100%
+  );
+  background-size: 250% auto;
+  transition: all 0.5s ease;
+  color: white;
+  font-weight: bold;
+}
+.bp-bg:hover {
+  background-position: right center;
+}
+.text-bp-hover:hover {
+  background: linear-gradient(to right, #7462f9 35%, #df3ef8 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+}
+/* Mixin
+/* Set các giá trị với màn hình tương ứng */
+/* $mobile-width: 480px;
+
+@mixin mobile {
+  @media (max-width: #{$mobile-width - 1px}) {
+    @content;
+  }
+} */

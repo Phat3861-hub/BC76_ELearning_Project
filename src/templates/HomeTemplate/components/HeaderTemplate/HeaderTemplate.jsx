@@ -5,14 +5,17 @@ import DropdownHeader from "../../../../components/Dropdown/DropdownHeader";
 import { KhoaHocService } from "../../../../services/khoaHoc.service";
 import InputSearch from "../../../../components/Input/InputSearch";
 import { Link, useNavigate, useLocation, NavLink } from "react-router-dom";
-import { Dropdown } from "antd";
+import { Avatar, Dropdown } from "antd";
 import { pathDefault } from "../../../../common/path";
+import { useSelector } from "react-redux";
+
 import {
   ButtonGhost,
   ButtonOutline,
 } from "../../../../components/Button/buttonCustom";
 import ReponsiveMenu from "./ReponsiveMenu";
 import logo from "/img/logo.png";
+import { UserOutlined } from "@ant-design/icons";
 const defaultImage = "/img/logo-title.png";
 
 const HeaderTemplate = () => {
@@ -108,9 +111,13 @@ const HeaderTemplate = () => {
     }
   }, [value]);
 
+  // lấy dữ liệu người dùng từ local
+  const { user } = useSelector((state) => state.userSlice);
+  // console.log(user);
+
   return (
     <>
-      <nav className="bg-black">
+      <nav className="bg-black fixed top-0 z-30 left-0 right-0">
         <div className="container flex justify-between items-center py-5">
           <div className="flex items-center">
             <NavLink to={"/"} className="mr-5">
@@ -163,16 +170,24 @@ const HeaderTemplate = () => {
                 </li>
               </ul>
             </div>
-            <div className="inline">
-              <ButtonGhost
-                onClick={() => navigate(pathDefault.signIn)}
-                content={"Sign In"}
-              />
-              <ButtonOutline
-                onClick={() => navigate(pathDefault.signUp)}
-                content={"Join"}
-              />
-            </div>
+            {!user ? (
+              <div className="inline">
+                <ButtonGhost
+                  onClick={() => navigate(pathDefault.signIn)}
+                  content={"Sign In"}
+                />
+                <ButtonOutline
+                  onClick={() => navigate(pathDefault.signUp)}
+                  content={"Join"}
+                />
+              </div>
+            ) : (
+              <Link className="hover:!text-white" to={"/user-info"}>
+                <Avatar size={50} className="bg-gray-400">
+                  {user.taiKhoan}
+                </Avatar>
+              </Link>
+            )}
             <div className="xl:hidden ml-5 text-white text-3xl">
               <button onClick={() => setOpenHambur(!openHambur)}>
                 <i className="fa-solid fa-bars"></i>

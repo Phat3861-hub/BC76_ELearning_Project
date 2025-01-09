@@ -5,6 +5,9 @@ export const nguoiDungService = {
   signIn: (data) => {
     return http.post("/QuanLyNguoiDung/DangNhap", data);
   },
+  signUp: (data) => {
+    return http.post("/QuanLyNguoiDung/DangKy", data);
+  },
   updateInfo: (updatedData) => {
     const formattedData = {
       taiKhoan: updatedData?.taiKhoan || "",
