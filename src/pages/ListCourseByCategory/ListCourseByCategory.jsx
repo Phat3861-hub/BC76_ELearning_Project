@@ -11,6 +11,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { nguoiDungService } from "../../services/nguoiDung.service";
 import { Input } from "antd";
+import { div } from "framer-motion/client";
 const ListCourseByCategory = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
@@ -46,7 +47,7 @@ const ListCourseByCategory = () => {
       }),
     });
   return (
-    <>
+    <div className="pt-24">
       <CategoryHeader category={maDanhMuc} tenDanhMuc={tenDanhMuc} />
       <CategoryBanner category={maDanhMuc} tenDanhMuc={tenDanhMuc} />
       <CategoryCarousel />
@@ -92,7 +93,7 @@ const ListCourseByCategory = () => {
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

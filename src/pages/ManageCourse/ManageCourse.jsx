@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { KhoaHocService } from "../../services/khoaHoc.service";
-import { Button, Modal, Popconfirm, Table } from "antd";
+import { Button, message, Modal, Popconfirm, Table } from "antd";
 import FormEnrollByCourse from "./components/FormEnrollByCourse";
+import FormAddCourse from "./components/FormAddCourse";
+import FormUpdateCourse from "./components/FormUpdateCourse";
+// import FormUpdateCourse from "./components/FormUpdateCourse";
 const defaultImage = "/img/logo-title.png";
 const ManageCourse = () => {
   const [listKhoaHoc, setListKhoaHoc] = useState([]);
   const [isEnrollModalByCourse, setIsEnrollModalByCourseOpen] = useState(false);
   const [maKhoaHoc, setMaKhoaHoc] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
+  const [layDataKhoaHoc, setDataKhoaHoc] = useState("");
+
   const handleImageError = (e) => {
     e.target.src = defaultImage;
   };
@@ -81,6 +88,18 @@ const ManageCourse = () => {
               onCancel={() => {}}
               okText="Yes"
               cancelText="No"
+              onConfirm={() => {
+                KhoaHocService.xoaKhoaHoc(record.maKhoaHoc)
+                  .then((res) => {
+                    console.log(res);
+                    layDanhSachKhoaHoc();
+                    message.success("Xóa thành công");
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                    message.error(err.response.data);
+                  });
+              }}
             >
               <Button
                 danger
@@ -90,7 +109,14 @@ const ManageCourse = () => {
               </Button>
             </Popconfirm>
             <br />
-            <Button className="border-yellow-500 text-yellow-500 hover:!text-white hover:!bg-yellow-500 hover:!border-yellow-500">
+            <Button
+              className="border-yellow-500 text-yellow-500 hover:!text-white hover:!bg-yellow-500 hover:!border-yellow-500"
+              onClick={() => {
+                console.log(record);
+                setIsModalUpdateOpen(true);
+                setDataKhoaHoc(record);
+              }}
+            >
               Sửa
             </Button>
           </div>
@@ -100,6 +126,49 @@ const ManageCourse = () => {
   ];
   return (
     <div>
+      <Button
+        onClick={() => {
+          setIsModalOpen(true);
+          setDisableUpdate(true);
+        }}
+        size="large"
+        variant="solid"
+        className="bg-green-500 text-white hover:!text-green-500 hover:!border-green-500 mb-6 "
+      >
+        Thêm Khóa học
+      </Button>
+      <Modal
+        footer={null}
+        title="Thêm khóa học"
+        open={isModalOpen}
+        onCancel={() => {
+          setIsModalOpen(false);
+        }}
+      >
+        <FormAddCourse
+          layDanhSachKhoaHoc={layDanhSachKhoaHoc}
+          handleCloseModal={() => {
+            setIsModalOpen(false);
+          }}
+        />
+      </Modal>
+      <Modal
+        footer={null}
+        title="Sửa khóa học"
+        open={isModalUpdateOpen}
+        onCancel={() => {
+          setIsModalUpdateOpen(false);
+        }}
+      >
+        <FormUpdateCourse
+          layDanhSachKhoaHoc={layDanhSachKhoaHoc}
+          handleCloseModal={() => {
+            setIsModalUpdateOpen(false);
+          }}
+          layDataKhoaHoc={layDataKhoaHoc}
+        />
+      </Modal>
+
       <Table
         dataSource={listKhoaHoc}
         columns={columns}

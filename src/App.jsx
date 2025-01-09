@@ -12,6 +12,8 @@ import CourseDetailTemplate from "./pages/CourseDetail/CourseDetailTemplate";
 import UserInfo from "./pages/UserInfo/UserInfo";
 import ManageCourse from "./pages/ManageCourse/ManageCourse";
 import ManageUser from "./pages/ManageUser/ManageUser";
+import BodyTemplate from "./templates/HomeTemplate/components/BodyTemplate/BodyTemplate";
+
 const HomeTemplate = React.lazy(() =>
   import("./templates/HomeTemplate/HomeTemplate")
 );
@@ -24,6 +26,14 @@ const arrRoutes = [
       </Suspense>
     ),
     children: [
+      {
+        path: "/",
+        element: (
+          <Suspense>
+            <BodyTemplate />
+          </Suspense>
+        ),
+      },
       {
         path: pathDefault.listCourseByCategory,
         element: (
@@ -99,7 +109,7 @@ function App() {
   return (
     <>
       {routes}
-      <ScrollToTop smooth />
+      <ScrollToTop smooth className="p-1" />
     </>
   );
 }

@@ -1,0 +1,42 @@
+.course {
+  background-color: #505170;
+}
+.bg-color-gray {
+  background-color: #272634;
+}
+.item {
+  &:hover {
+    .hover-right-icon {
+      animation: 1s infinite slidein;
+    }
+  }
+}
+.border-bp {
+  border: 3px solid;
+  border-image-source: linear-gradient(to right, #7462f9 35%, #df3ef8 100%);
+  border-image-slice: 1;
+  border-image-width: 0;
+  transition: all 0.1s;
+  &:hover {
+    border-image-width: 1;
+  }
+}
+
+@keyframes slidein {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .course {
+    .tab-col {
+      margin-top: 20px;
+    }
+  }
+}

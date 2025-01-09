@@ -1,0 +1,45 @@
+.company_slideshow {
+  height: 200px;
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+  &::before {
+    background: linear-gradient(270deg, hsla(0deg, 0%, 100%, 0), #fff 70%);
+    content: "";
+    height: 100%;
+    width: 200px;
+    left: -60px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+  }
+  &::after {
+    background: linear-gradient(90deg, hsla(0deg, 0%, 100%, 0), #fff 65%);
+    content: "";
+    height: 100%;
+    width: 200px;
+    right: -137px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+  }
+  .moveX {
+    width: 4296px;
+    background: url(/img/banner-taitro.png);
+    background-size: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translate3d(0, 0, 0);
+    animation: moveSlideshowX 60s linear infinite;
+  }
+}
+
+@keyframes moveSlideshowX {
+  100% {
+    transform: translateX(-66.6666%);
+  }
+}

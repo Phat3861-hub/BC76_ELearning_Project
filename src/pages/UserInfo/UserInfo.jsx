@@ -32,7 +32,7 @@ const items = [
 const UserInfo = () => {
   const dataUser = JSON.parse(localStorage.getItem("userInfo"));
   return (
-    <div className="py-10">
+    <div className="py-10 pt-28">
       <div className="container ">
         <div className="space-y-5">
           <div className=" mr-10 space-y-5">

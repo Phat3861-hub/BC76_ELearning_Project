@@ -1,0 +1,15 @@
+.bg-count {
+  background-color: #f4f8ff;
+}
+@media (max-width: 480px) {
+  .bg-count {
+    .icon-bg {
+      width: 50%;
+    }
+    .text-left {
+      p {
+        font-size: 12px;
+      }
+    }
+  }
+}
