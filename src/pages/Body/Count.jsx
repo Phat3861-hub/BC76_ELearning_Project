@@ -1,65 +1,67 @@
 import React from "react";
-import "./Count.scss";
+import CountUp from "react-countup";
+import { useInView } from "react-intersection-observer";
 
-const Count = () => {
+const CountUpComponent = () => {
+  const [ref, inView] = useInView({ triggerOnce: false });
+
   return (
-    <div className="bg-count py-28">
-      <div className="text-center md:container space-y-8">
-        <h1 className="lg:text-4xl sm:text-3xl font-medium">
-          CYBERSOFT - ĐÀO TẠO LẬP TRÌNH THEO LỘ TRÌNH DỰ ÁN
-        </h1>
-        <h2 className="text-2xl font-light">Thống kê qua con số</h2>
-        <div className="grid grid-cols-3">
-          <div className="flex justify-center items-center gap-3">
-            <div className="icon-bg bp-bg xl:w-1/5 lg:w-1/4 md:w-2/6 sm:w-1/4 p-4 rounded-full">
-              <img
-                className="w-full "
-                src="https://cybersoft.edu.vn/wp-content/uploads/2023/02/health-clinic.png"
-                alt=""
-              />
-            </div>
-            <div className="text-left ">
-              <h3 className="font-semibold lg:text-6xl sm:text-3xl bp-color">
-                7
-              </h3>
-              <p className="font-medium ">Trung tâm</p>
-            </div>
-          </div>
-
-          <div className="flex justify-center items-center gap-3">
-            <div className="icon-bg bp-bg xl:w-1/5 lg:w-1/4 md:w-2/6 sm:w-1/4 p-4 rounded-full">
-              <img
-                className="w-full "
-                src="https://cybersoft.edu.vn/wp-content/uploads/2023/02/graduated.png"
-                alt=""
-              />
-            </div>
-            <div className="text-left ">
-              <h3 className="font-semibold lg:text-6xl sm:text-3xl bp-color">
-                9500+
-              </h3>
-              <p className="font-medium ">Học viên</p>
-            </div>
-          </div>
-          <div className="flex justify-center items-center gap-3">
-            <div className="icon-bg bp-bg xl:w-1/5 lg:w-1/4 md:w-2/6 sm:w-1/4 p-4 rounded-full">
-              <img
-                className="w-full  "
-                src="https://cybersoft.edu.vn/wp-content/uploads/2023/02/deal.png"
-                alt=""
-              />
-            </div>
-            <div className="text-left ">
-              <h3 className="font-semibold lg:text-6xl sm:text-3xl bp-color">
-                200+
-              </h3>
-              <p className="font-medium ">Đối tác</p>
-            </div>
-          </div>
+    <div
+      className="relative py-10 bg-fixed bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/img/bg-countup.jpg')" }}
+    >
+      {/* Lớp phủ tối */}
+      <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+      <div className="container relative ">
+        <div className="text-center space-y-5">
+          <h1 className="text-4xl font-bold text-white">
+            CYBERSOFT - ĐÀO TẠO LẬP TRÌNH THEO LỘ TRÌNH DỰ ÁN
+          </h1>
+          <p className="text-xl text-white">Thống kê qua con số</p>
+        </div>
+        <div className="text-center mt-5">
+          <ul className="flex items-center justify-between">
+            <li className="md:flex items-center md:space-x-5" ref={ref}>
+              <div className="h-24 w-24 rounded-full bg-purple-400 flex items-center justify-center text-4xl text-white">
+                <i className="fa-solid fa-building"></i>
+              </div>
+              <div>
+                <h2 className="text-4xl font-bold text-purple-400">
+                  {inView && <CountUp start={0} end={7} duration={5} />}
+                </h2>
+                <p className="text-xl text-white">Trung tâm</p>
+              </div>
+            </li>
+            <li className="md:flex items-center md:space-x-5" ref={ref}>
+              <div className="h-24 w-24 rounded-full bg-purple-400 flex items-center justify-center text-4xl text-white">
+                <i className="fa-solid fa-user-graduate"></i>
+              </div>
+              <div>
+                <h2 className="text-4xl font-bold text-purple-400">
+                  {inView && (
+                    <CountUp start={0} end={9500} duration={5} separator="," />
+                  )}
+                  +
+                </h2>
+                <p className="text-xl text-white">Học viên</p>
+              </div>
+            </li>
+            <li className="md:flex items-center md:space-x-5" ref={ref}>
+              <div className="h-24 w-24 rounded-full bg-purple-400 flex items-center justify-center text-4xl text-white">
+                <i className="fa-solid fa-handshake"></i>
+              </div>
+              <div>
+                <h2 className="text-4xl font-bold text-purple-400">
+                  {inView && <CountUp start={0} end={200} duration={5} />}+
+                </h2>
+                <p className="text-xl text-white">Đối tác</p>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   );
 };
 
-export default Count;
+export default CountUpComponent;

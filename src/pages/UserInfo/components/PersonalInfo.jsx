@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { nguoiDungService } from "../../../services/nguoiDung.service";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import "../UserInfo.scss";
 
 const PersonalInfo = () => {
   const [thongTinTaiKhoan, setThongTinTaiKhoan] = useState(null);
@@ -102,6 +103,7 @@ const PersonalInfo = () => {
               Họ tên
             </label>
             <Input
+              className="p-3 outline-none rounded-lg text-black"
               name="hoTen"
               value={values.hoTen}
               onChange={handleChange}
@@ -118,6 +120,7 @@ const PersonalInfo = () => {
               Số điện thoại
             </label>
             <Input
+              className="p-3 outline-none rounded-lg text-black"
               name="soDT"
               value={values.soDT}
               onChange={handleChange}
@@ -134,6 +137,7 @@ const PersonalInfo = () => {
               Tài khoản
             </label>
             <Input
+              className="p-3 outline-none rounded-lg text-black"
               name="taiKhoan"
               value={values.taiKhoan}
               onChange={handleChange}
@@ -147,6 +151,7 @@ const PersonalInfo = () => {
               Email
             </label>
             <Input
+              className="p-3 outline-none rounded-lg text-black"
               name="email"
               value={values.email}
               onChange={handleChange}
@@ -163,6 +168,7 @@ const PersonalInfo = () => {
               Mật khẩu
             </label>
             <Input.Password
+              className="p-3 outline-none rounded-lg text-black"
               name="matKhau"
               value={values.matKhau}
               onChange={handleChange}
@@ -179,6 +185,7 @@ const PersonalInfo = () => {
               Mã loại người dùng
             </label>
             <Input
+              className="p-3 outline-none rounded-lg text-black"
               name="maLoaiNguoiDung"
               value={values.maLoaiNguoiDung}
               disabled // Luôn là read-only
@@ -186,8 +193,8 @@ const PersonalInfo = () => {
           </div>
         </div>
         <Button
-          type="primary"
-          className="py-2 px-4"
+          type="none"
+          className="btn_edit px-10 py-5 bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-700 text-white rounded-lg transition-all duration-500 hover:bg-[length:200%_200%] bg-[length:100%_100%] font-bold overflow-hidden"
           onClick={() => {
             if (isEditable) {
               handleSubmit(); // Gửi form khi đang ở chế độ chỉnh sửa

@@ -1,17 +1,53 @@
-import { Button, Input, message } from "antd";
-import React, { useState } from "react";
-import InputCustom from "../../../components/Input/InputCustom";
-import * as Yup from "yup"; // Thêm Yup để kiểm tra
-import SelectCustom from "../../../components/Select/SelectCustom";
 import { useFormik } from "formik";
-import { DatePicker } from "antd";
-import { useSelector } from "react-redux";
-import { label } from "framer-motion/client";
+import React, { useEffect, useState } from "react";
+import * as Yup from "yup";
 import { KhoaHocService } from "../../../services/khoaHoc.service";
+import InputCustom from "../../../components/Input/InputCustom";
+import { Select, Button, message } from "antd";
 
 const FormAddCourse = ({ handleCloseModal, layDanhSachKhoaHoc }) => {
-  const user = useSelector((state) => state.userSlice);
-  console.log(user.user.taiKhoan);
+  const dataLocal = localStorage.getItem("userInfo");
+  const dataUser = JSON.parse(dataLocal);
+  const [img, setImg] = useState(null); // Chỉnh sửa state img để lưu file trực tiếp
+
+  const handleImg = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImg(file); // Lưu file vào state
+      setFieldValue("hinhAnh", file.name); // Lưu tên file vào Formik
+    } else {
+      setImg(null);
+      setFieldValue("hinhAnh", "");
+    }
+  };
+
+  const uploadImg = (file, tenKhoaHoc, maNhom) => {
+    const formData = new FormData();
+    const fileExtension = file.name.split(".").pop();
+    const newFileName = `${tenKhoaHoc}_${maNhom}.${fileExtension}`;
+
+    formData.append("img", file, newFileName);
+    formData.append("tenKhoaHoc", tenKhoaHoc);
+
+    return KhoaHocService.uploadHinhAnh(formData);
+  };
+
+  // Danh sách danh mục khóa học
+  const danhMucKhoaHoc = [
+    { maDanhMuc: "BackEnd", tenDanhMuc: "Lập trình Backend" },
+    { maDanhMuc: "Design", tenDanhMuc: "Thiết kế Web" },
+    { maDanhMuc: "DiDong", tenDanhMuc: "Lập trình di động" },
+    { maDanhMuc: "FrontEnd", tenDanhMuc: "Lập trình Front end" },
+    { maDanhMuc: "FullStack", tenDanhMuc: "Lập trình Full Stack" },
+    { maDanhMuc: "TuDuy", tenDanhMuc: "Tư duy lập trình" },
+  ];
+  useEffect(() => {
+    return () => {
+      if (img) {
+        URL.revokeObjectURL(img);
+      }
+    };
+  }, [img]);
 
   const {
     handleBlur,
@@ -30,62 +66,67 @@ const FormAddCourse = ({ handleCloseModal, layDanhSachKhoaHoc }) => {
       luotXem: 0,
       danhGia: 0,
       hinhAnh: "",
-      maNhom: "GP01",
+      maNhom: "",
       ngayTao: "",
       maDanhMucKhoaHoc: "",
-      taiKhoanNguoiTao: `${user.user.taiKhoan}`,
+      taiKhoanNguoiTao: dataUser.taiKhoan,
     },
     validationSchema: Yup.object({
-      maKhoaHoc: Yup.string().required("Vui lòng không để trống"),
-      biDanh: Yup.string().required("Vui lòng không để trống"),
-      tenKhoaHoc: Yup.string().required("Vui lòng không để trống"),
-      // maNhom: Yup.string().required("Vui lòng không để trống"),
-      ngayTao: Yup.string().required("Vui lòng không để trống"),
-      maDanhMucKhoaHoc: Yup.string().required("Vui lòng không để trống"),
+      maKhoaHoc: Yup.string().required("Mã khóa học không được để trống"),
+      tenKhoaHoc: Yup.string().required("Tên khóa học không được để trống"),
+      moTa: Yup.string().required("Mô tả không được để trống"),
+      maNhom: Yup.string().required("Mã nhóm không được để trống"),
+      ngayTao: Yup.date().required("Ngày tạo không được để trống"),
+      maDanhMucKhoaHoc: Yup.string().required(
+        "Danh mục khóa học không được để trống"
+      ),
     }),
-    onSubmit: (values) => {
-      console.log(values);
-      KhoaHocService.themKhoaHoc(values)
+    onSubmit: (values, { resetForm }) => {
+      KhoaHocService.themKhoahoc(values)
         .then((res) => {
-          console.log(res);
-          layDanhSachKhoaHoc();
+          const { tenKhoaHoc, maNhom } = values;
+          if (img) {
+            return uploadImg(img, tenKhoaHoc, maNhom)
+              .then(() => {
+                message.success("Thêm khóa học và upload hình ảnh thành công");
+              })
+              .catch(() => {
+                message.error(
+                  "Thêm khóa học thành công nhưng upload hình ảnh thất bại"
+                );
+              });
+          } else {
+            message.success("Thêm khóa học thành công");
+          }
+        })
+        .then(() => {
+          resetForm(); // Reset form về trạng thái ban đầu
+          setImg(null); // Xóa hình ảnh đã chọn
           handleCloseModal();
-          message.success("Thêm khóa học thành công");
+          layDanhSachKhoaHoc();
         })
         .catch((err) => {
           console.log(err);
-          message.error(err.response.data);
+          message.error("Thêm khóa học thất bại");
         });
     },
   });
 
   return (
     <div>
-      <form onSubmit={handleSubmit} action="" className="space-y-3">
-        <div className="grid grid-cols-2 gap-5">
-          <InputCustom
-            value={values.maKhoaHoc}
-            id="maKhoaHoc"
-            name="maKhoaHoc"
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            error={errors.maKhoaHoc}
-            touched={touched.maKhoaHoc}
-            labelContent={"Mã khóa học"}
-            placeholder={"Vui lòng nhập mã khóa học"}
-          />
-          <InputCustom
-            value={values.biDanh}
-            id="biDanh"
-            name="biDanh"
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            error={errors.biDanh}
-            touched={touched.biDanh}
-            labelContent={"Bí danh"}
-            placeholder={"Vui lòng nhập bí danh"}
-          />
-        </div>
+      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+        <InputCustom
+          value={values.maKhoaHoc}
+          id="maKhoaHoc"
+          name="maKhoaHoc"
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          error={errors.maKhoaHoc}
+          touched={touched.maKhoaHoc}
+          labelContent={"Mã khóa học"}
+          placeholder={"Vui lòng nhập mã khóa học"}
+        />
+
         <InputCustom
           value={values.tenKhoaHoc}
           id="tenKhoaHoc"
@@ -97,113 +138,119 @@ const FormAddCourse = ({ handleCloseModal, layDanhSachKhoaHoc }) => {
           labelContent={"Tên khóa học"}
           placeholder={"Vui lòng nhập tên khóa học"}
         />
-        <div className="grid grid-cols-2 gap-5">
-          <InputCustom
-            value={values.luotXem}
-            id="luotXem"
-            name="luotXem"
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            error={errors.luotXem}
-            touched={touched.luotXem}
-            labelContent={"Lượt xem"}
-            placeholder={"Vui lòng nhập lượt xem"}
-            type="number"
-          />
-          <InputCustom
-            value={values.danhGia}
-            id="danhGia"
-            name="danhGia"
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            error={errors.danhGia}
-            touched={touched.danhGia}
-            labelContent={"Đánh giá"}
-            placeholder={"Vui lòng nhập đánh giá"}
-            type="number"
-          />
 
-          <div>
-            <div>
-              <label className="font-medium mb-2 inline-block">Ngày tạo</label>
-            </div>
-            <DatePicker
-              format={"DD-MM-YYYY"}
-              className="h-auto w-full"
-              onChange={(day, daystring) => {
-                setFieldValue("ngayTao", daystring);
-              }}
-            />
-            {touched.ngayTao && errors.ngayTao ? (
-              <p className="text-red-500 mt-2">{errors.ngayTao}</p>
-            ) : null}
-          </div>
-          <div>
-            <SelectCustom
-              handleChange={(value, option) => {
-                setFieldValue("maDanhMucKhoaHoc", value);
-              }}
-              options={[
-                {
-                  label: "Lập trình Backend",
-                  value: "BackEnd",
-                },
-                {
-                  label: "Thiết kế Web",
-                  value: "Design",
-                },
-                {
-                  label: "Lập trình di động",
-                  value: "DiDong",
-                },
-                {
-                  label: "Lập trình Front end",
-                  value: "FrontEnd",
-                },
-                {
-                  label: "Lập trình Full Stack",
-                  value: "FullStack",
-                },
-                {
-                  label: "Tư duy lập trình",
-                  value: "TuDuy",
-                },
-              ]}
-              labelContent={"Chọn mã loại khóa học"}
-            />
-            {touched.maDanhMucKhoaHoc && errors.maDanhMucKhoaHoc ? (
-              <p className="text-red-500 mt-2">{errors.maDanhMucKhoaHoc}</p>
-            ) : null}
-          </div>
-        </div>
         <InputCustom
-          value={values.hinhAnh}
-          id="hinhAnh"
-          name="hinhAnh"
+          value={values.biDanh}
+          id="biDanh"
+          name="biDanh"
           handleChange={handleChange}
           handleBlur={handleBlur}
-          error={errors.hinhAnh}
-          touched={touched.hinhAnh}
-          labelContent={"Hình ảnh"}
-          placeholder={"Vui lòng chọn hình ảnh"}
+          error={errors.biDanh}
+          touched={touched.biDanh}
+          labelContent={"Bí danh"}
+          placeholder={"Vui lòng nhập bí danh"}
         />
 
-        <div>
-          <label className="font-medium mb-2 inline-block">Mô tả</label>
-          <Input.TextArea
-            value={values.moTa}
-            name="moTa"
-            id="moTa"
-            onChange={handleChange}
-            onBlur={handleBlur}
+        <InputCustom
+          value={values.moTa}
+          id="moTa"
+          name="moTa"
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          error={errors.moTa}
+          touched={touched.moTa}
+          labelContent={"Mô tả"}
+          placeholder={"Vui lòng nhập mô tả khóa học"}
+        />
+
+        <div className="flex flex-col">
+          <label htmlFor="maNhom" className="font-medium mb-1">
+            Mã nhóm
+          </label>
+          <Select
+            id="maNhom"
+            value={values.maNhom}
+            onChange={(value) => setFieldValue("maNhom", value)}
+            options={[
+              { value: "GP01", label: "GP01" },
+              { value: "GP02", label: "GP02" },
+              { value: "GP03", label: "GP03" },
+              { value: "GP04", label: "GP04" },
+              { value: "GP05", label: "GP05" },
+            ]}
+            placeholder="Chọn mã nhóm"
           />
+          {errors.maNhom && touched.maNhom && (
+            <div className="text-red-500 text-sm mt-1">{errors.maNhom}</div>
+          )}
+        </div>
+
+        <InputCustom
+          type="date"
+          value={values.ngayTao}
+          id="ngayTao"
+          name="ngayTao"
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          error={errors.ngayTao}
+          touched={touched.ngayTao}
+          labelContent={"Ngày tạo"}
+        />
+
+        <div className="flex flex-col">
+          <label htmlFor="maDanhMucKhoaHoc" className="font-medium mb-1">
+            Mã danh mục khóa học
+          </label>
+          <Select
+            id="maDanhMucKhoaHoc"
+            value={values.maDanhMucKhoaHoc}
+            onChange={(value) => setFieldValue("maDanhMucKhoaHoc", value)}
+            options={danhMucKhoaHoc.map((danhMuc) => ({
+              value: danhMuc.maDanhMuc,
+              label: danhMuc.tenDanhMuc,
+            }))}
+            placeholder="Chọn mã danh mục"
+          />
+          {errors.maDanhMucKhoaHoc && touched.maDanhMucKhoaHoc && (
+            <div className="text-red-500 text-sm mt-1">
+              {errors.maDanhMucKhoaHoc}
+            </div>
+          )}
+        </div>
+
+        <div className="flex flex-col">
+          <label htmlFor="hinhAnh" className="font-medium mb-1">
+            Upload hình ảnh
+          </label>
+          <input
+            type="file"
+            id="hinhAnh"
+            name="hinhAnh"
+            onChange={handleImg}
+            className="border p-2 rounded"
+          />
+          {img && (
+            <img
+              src={URL.createObjectURL(img)} // Hiển thị ảnh
+              alt="Thumbnail"
+              className="mt-2 max-w-[150px] max-h-[150px] border rounded"
+            />
+          )}
+          {values.hinhAnh && (
+            <div className="text-green-500 text-sm mt-1">
+              Đã chọn: {values.hinhAnh}
+            </div>
+          )}
+          {errors.hinhAnh && touched.hinhAnh && (
+            <div className="text-red-500 text-sm mt-1">{errors.hinhAnh}</div>
+          )}
         </div>
 
         <Button
           htmlType="submit"
           size="large"
           variant="solid"
-          className="bg-green-500 text-white hover:!text-green-500 hover:!border-green-500 "
+          className="col-span-2 bg-green-500 text-white hover:!text-green-500 hover:!border-green-500"
         >
           Thêm khóa học
         </Button>

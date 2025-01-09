@@ -43,6 +43,10 @@ textarea {
   -webkit-text-fill-color: transparent;
   cursor: pointer;
 }
+#footer {
+  background: linear-gradient(#5c3c13 24%, #5f390a 46%, #412011 67%);
+}
+
 /* Mixin
 /* Set các giá trị với màn hình tương ứng */
 /* $mobile-width: 480px;

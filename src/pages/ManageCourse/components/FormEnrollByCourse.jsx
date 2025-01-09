@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { nguoiDungService } from "../../../services/nguoiDung.service";
 import { Button, message, Table } from "antd";
+import { KhoaHocService } from "../../../services/khoaHoc.service";
 
 const FormEnrollByCourse = ({ maKhoaHoc }) => {
   const [listHocVienChuaGhiDanh, setListHocVienChuaGhiDanh] = useState([]);
@@ -21,7 +22,7 @@ const FormEnrollByCourse = ({ maKhoaHoc }) => {
       nguoiDungService
         .layDanhSachHocVienChoXetDuyet({ maKhoaHoc })
         .then((res) => {
-          setListHocVienDaXetDuyet(res.data || []);
+          setListHocVienChoXetDuyet(res.data || []);
           console.log(res.data);
         })
         .catch((err) => {
@@ -49,7 +50,35 @@ const FormEnrollByCourse = ({ maKhoaHoc }) => {
         return (
           <div className="space-x-3 flex text-center">
             {!isApproved && (
-              <Button className="border-yellow-500 text-yellow-500 hover:!text-white hover:!bg-yellow-500 hover:!border-yellow-500">
+              <Button
+                className="border-yellow-500 text-yellow-500 hover:!text-white hover:!bg-yellow-500 hover:!border-yellow-500"
+                onClick={() => {
+                  if (maKhoaHoc) {
+                    KhoaHocService.ghiDanhKhoaHoc({
+                      maKhoaHoc: maKhoaHoc,
+                      taiKhoan: record.taiKhoan,
+                    })
+                      .then((res) => {
+                        message.success("Ghi danh thành công");
+
+                        // Cập nhật danh sách sau khi ghi danh thành công
+                        setListHocVienChoXetDuyet((prev) =>
+                          prev.filter(
+                            (item) => item.taiKhoan !== record.taiKhoan
+                          )
+                        );
+
+                        setListHocVienDaXetDuyet((prev) => [...prev, record]);
+                      })
+                      .catch((err) => {
+                        console.error(err);
+                        message.error("Ghi danh thất bại");
+                      });
+                  } else {
+                    message.warning("Không có tài khoản người dùng được chọn");
+                  }
+                }}
+              >
                 Xác thực
               </Button>
             )}

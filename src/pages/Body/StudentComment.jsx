@@ -1,9 +1,19 @@
 import React from "react";
 import { ButtonBlueP } from "../../components/Button/buttonCustom";
-
+import "./StudentThink.scss";
+import ReactFancyBox from "react-fancybox";
+import "react-fancybox/lib/fancybox.css";
 const StudentComment = () => {
+  const images = [
+    "/img/nguyendangkhanhvan.jpg",
+    "/img/nguyenquocngu.jpg",
+    "/img/nguyentanloi.jpg",
+    "/img/phamhuyhoang.jpg",
+    "/img/phananhngoc.jpg",
+    "/img/buivinhkhai.jpg",
+  ];
   return (
-    <div className=" my-20 space-y-14">
+    <div className="  space-y-14">
       <h1 className="text-center lg:text-4xl sm:text-3xl font-medium">
         HỌC VIÊN ĐÃ NÓI GÌ VỀ CYBERSOFT ACADEMY
       </h1>
@@ -19,41 +29,32 @@ const StudentComment = () => {
           alt=""
         />
       </div>
-      <div className="bg-gray-100 py-10">
-        <div className="grid grid-cols-3  gap-5 container mb-10">
-          <img
-            src="https://cybersoft.edu.vn/wp-content/uploads/2022/08/nguyendangkhanhvan.jpg"
-            alt=""
-            className="rounded-lg"
-          />{" "}
-          <img
-            src="https://cybersoft.edu.vn/wp-content/uploads/2022/08/phananhngoc.jpg"
-            alt=""
-            className="rounded-lg"
-          />{" "}
-          <img
-            src="https://cybersoft.edu.vn/wp-content/uploads/2022/08/phamhuyhoang.jpg"
-            alt=""
-            className="rounded-lg"
-          />{" "}
-          <img
-            src="https://cybersoft.edu.vn/wp-content/uploads/2022/08/nguyenquocngu.jpg"
-            alt=""
-            className="rounded-lg"
-          />{" "}
-          <img
-            src="https://cybersoft.edu.vn/wp-content/uploads/2022/08/nguyentanloi.jpg"
-            alt=""
-            className="rounded-lg"
-          />{" "}
-          <img
-            src="https://cybersoft.edu.vn/wp-content/uploads/2022/08/buivinhkhai.jpg"
-            alt=""
-            className="rounded-lg"
-          />
-        </div>
-        <div className="mx-auto text-center">
-          <ButtonBlueP content={"Xem cảm nhận học viên"} />
+      <div className="py-10 StudentThink bg-[#F2F3FE]">
+        <div className="container">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
+            {images.map((image, index) => (
+              <div className="imageWrapper" key={index}>
+                <div className="bgDark"></div>
+                <a
+                  className="w-5 h-5 btn_search rounded-full border border-white"
+                  data-fancybox
+                  href={image}
+                >
+                  <i className="fa-solid fa-magnifying-glass"></i>
+                </a>
+                <img
+                  src={image}
+                  className="rounded-lg"
+                  alt={`Student ${index}`}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-5">
+            <button className="px-10 py-3 bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-700 text-white rounded-lg transition-all duration-500 hover:bg-[length:200%_200%] bg-[length:100%_100%]">
+              Xem cảm nhận học viên
+            </button>
+          </div>
         </div>
       </div>
     </div>

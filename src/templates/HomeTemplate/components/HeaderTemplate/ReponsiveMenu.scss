@@ -1,0 +1,7 @@
+.reponsive-menu {
+  position: fixed; /* Đảm bảo menu luôn cố định */
+  top: 70px; /* Tùy chỉnh sao cho khớp với chiều cao HeaderTemplate */
+  left: 0;
+  width: 100%;
+  z-index: 20;
+}

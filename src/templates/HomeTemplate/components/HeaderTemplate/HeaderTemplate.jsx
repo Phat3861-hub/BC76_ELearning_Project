@@ -5,10 +5,8 @@ import DropdownHeader from "../../../../components/Dropdown/DropdownHeader";
 import { KhoaHocService } from "../../../../services/khoaHoc.service";
 import InputSearch from "../../../../components/Input/InputSearch";
 import { Link, useNavigate, useLocation, NavLink } from "react-router-dom";
-import { Avatar, Dropdown } from "antd";
+import { Avatar, Dropdown, message } from "antd";
 import { pathDefault } from "../../../../common/path";
-import { useSelector } from "react-redux";
-
 import {
   ButtonGhost,
   ButtonOutline,
@@ -16,17 +14,20 @@ import {
 import ReponsiveMenu from "./ReponsiveMenu";
 import logo from "/img/logo.png";
 import { UserOutlined } from "@ant-design/icons";
+
 const defaultImage = "/img/logo-title.png";
 
 const HeaderTemplate = () => {
+  const dataUser = JSON.parse(localStorage.getItem("userInfo"));
   const [listDanhMucKhoaHoc, setListDanhMucKhoaHoc] = useState([]);
   const [openHambur, setOpenHambur] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
   const [listSearch, setListSearch] = useState([]);
   const [key, setKey] = useState("");
-  const [value] = useDebounce(key, 1000); // Debounce key input to avoid excessive API calls
+  const [value] = useDebounce(key, 1000);
 
   const navigate = useNavigate();
+  const location = useLocation();
   const handleImageError = (e) => {
     e.target.src = defaultImage; // Set default image if the original one fails to load
   };
@@ -111,15 +112,32 @@ const HeaderTemplate = () => {
     }
   }, [value]);
 
-  // lấy dữ liệu người dùng từ local
-  const { user } = useSelector((state) => state.userSlice);
-  // console.log(user);
+  const [shrink, setShrink] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setShrink(true);
+      } else {
+        setShrink(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
-      <nav className="bg-black fixed top-0 z-30 left-0 right-0">
-        <div className="container flex justify-between items-center py-5">
-          <div className="flex items-center">
+      <nav
+        className={`bg-black sticky top-0 z-50 ${
+          shrink ? "py-3" : "py-5"
+        } transition-all duration-300`}
+      >
+        <div className="container flex justify-between items-center ">
+          <div className="flex items-center space-x-10">
             <NavLink to={"/"} className="mr-5">
               <img className="max-h-10 sm:max-h-14" src={logo} alt="Logo" />
             </NavLink>
@@ -147,7 +165,7 @@ const HeaderTemplate = () => {
               </form>
             </Dropdown>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center justify-between">
             <div className="hidden xl:block">
               <ul className="flex items-center text-white text-xs">
                 <li>
@@ -156,38 +174,77 @@ const HeaderTemplate = () => {
                     items={itemListDanhMucKhoaHoc}
                   />
                 </li>
-                <li>
-                  <DropdownHeader
-                    buttonContent="Danh mục khóa học"
-                    items={itemListDanhMucKhoaHoc}
-                  />
-                </li>
-                <li>
-                  <DropdownHeader
-                    buttonContent="Danh mục khóa học"
-                    items={itemListDanhMucKhoaHoc}
-                  />
-                </li>
               </ul>
             </div>
-            {!user ? (
+            {!dataUser ? (
               <div className="inline">
                 <ButtonGhost
                   onClick={() => navigate(pathDefault.signIn)}
-                  content={"Sign In"}
+                  content={"Đăng nhập"}
                 />
                 <ButtonOutline
                   onClick={() => navigate(pathDefault.signUp)}
-                  content={"Join"}
+                  content={"Đăng ký"}
                 />
               </div>
             ) : (
-              <Link className="hover:!text-white" to={"/user-info"}>
-                <Avatar size={50} className="bg-gray-400">
-                  {user.taiKhoan}
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      key: "userInfo",
+                      label: (
+                        <div
+                          onClick={() => navigate(pathDefault.userInfo)}
+                          className="py-2 px-4 cursor-pointer hover:bg-gray-100"
+                        >
+                          <h1 className="font-semibold text-base">Info</h1>
+                        </div>
+                      ),
+                    },
+                    {
+                      key: "pageAdmin",
+                      label: (
+                        <div
+                          onClick={() => navigate(pathDefault.admin)}
+                          className={`py-2 px-4 cursor-pointer hover:bg-gray-100 ${
+                            dataUser.maLoaiNguoiDung == "GV" ? `` : `hidden`
+                          }`}
+                        >
+                          <h1 className="font-semibold text-base">Admin</h1>
+                        </div>
+                      ),
+                    },
+                    {
+                      key: "signOut",
+                      label: (
+                        <div
+                          onClick={() => {
+                            // Xóa thông tin người dùng khỏi localStorage
+                            localStorage.removeItem("userInfo");
+                            message.success("Đăng xuất thành công");
+                            setTimeout(() => {
+                              navigate(pathDefault.homePage);
+                              window.location.reload();
+                            }, 1500);
+                          }}
+                          className="py-2 px-4 cursor-pointer hover:bg-gray-100"
+                        >
+                          <h1 className="font-semibold text-base">Đăng xuất</h1>
+                        </div>
+                      ),
+                    },
+                  ],
+                }}
+              >
+                <Avatar size={50} className="bg-white">
+                  <h1 className="text-2xl text-black uppercase">
+                    {dataUser.hoTen.charAt(0)}
+                  </h1>
                 </Avatar>
-              </Link>
+              </Dropdown>
             )}
+
             <div className="xl:hidden ml-5 text-white text-3xl">
               <button onClick={() => setOpenHambur(!openHambur)}>
                 <i className="fa-solid fa-bars"></i>

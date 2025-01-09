@@ -7,7 +7,7 @@ import { div } from "framer-motion/client";
 const StartCareer = () => {
   return (
     <>
-      <div className="start-career relative">
+      <div className="start-career relative hidden md:block">
         <div className="absolute left-0 right-0 lg:-top-56 sm:-top-32">
           <img
             src="https://cybersoft.edu.vn/wp-content/uploads/2022/10/banner_5.jpg"
