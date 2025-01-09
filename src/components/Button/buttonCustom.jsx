@@ -53,7 +53,7 @@ export const ButtonContact = ({
 export const ButtonBlueP = ({ content, className = "" }) => {
   return (
     <button
-      className={`bp-bg border-solid rounded-none text-white px-5 py-2 lg:text-base sm:text-sm ${className}`}
+      className={`bp-bg border-solid rounded-lg text-white px-5 py-2 lg:text-base sm:text-sm ${className}`}
     >
       {content}
     </button>

@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { KhoaHocService } from "../../services/khoaHoc.service";
-import { Button, message, Modal, Popconfirm, Table } from "antd";
+import { Button, Input, message, Modal, Popconfirm, Table } from "antd";
 import FormEnrollByCourse from "./components/FormEnrollByCourse";
 import FormAddCourse from "./components/FormAddCourse";
+import { useDebounce } from "use-debounce";
 import FormUpdateCourse from "./components/FormUpdateCourse";
-// import FormUpdateCourse from "./components/FormUpdateCourse";
 const defaultImage = "/img/logo-title.png";
 const ManageCourse = () => {
   const [listKhoaHoc, setListKhoaHoc] = useState([]);
   const [isEnrollModalByCourse, setIsEnrollModalByCourseOpen] = useState(false);
   const [maKhoaHoc, setMaKhoaHoc] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
-  const [layDataKhoaHoc, setDataKhoaHoc] = useState("");
-
+  const [isModalCourseOpen, setIsModalCourseOpen] = useState(false);
+  const [isUpdateModalCourseOpen, setIsUpdateModalCourseOpen] = useState(false);
+  const [listSearch, setListSearch] = useState([]);
+  const [key, setKey] = useState("");
+  const [value] = useDebounce(key, 1000);
+  const [khoaHoc, setKhoaHoc] = useState("");
+  // Hàm xử lý thay đổi giá trị tìm kiếm (key)
+  const handleChangeKey = (event) => {
+    setKey(event.target.value);
+  };
   const handleImageError = (e) => {
     e.target.src = defaultImage;
   };
@@ -31,6 +37,20 @@ const ManageCourse = () => {
   useEffect(() => {
     layDanhSachKhoaHoc();
   }, []);
+  useEffect(() => {
+    if (value) {
+      KhoaHocService.getDanhSachKhoaHocTheoTen(value)
+        .then((res) => {
+          console.log(res.data);
+          setListSearch(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setListSearch([]);
+    }
+  }, [value]);
 
   const columns = [
     {
@@ -91,13 +111,18 @@ const ManageCourse = () => {
               onConfirm={() => {
                 KhoaHocService.xoaKhoaHoc(record.maKhoaHoc)
                   .then((res) => {
-                    console.log(res);
+                    console.log("Xóa khóa học thành công: ", res);
                     layDanhSachKhoaHoc();
-                    message.success("Xóa thành công");
+                    message.success("Xóa khóa học thành công");
                   })
                   .catch((err) => {
-                    console.log(err);
-                    message.error(err.response.data);
+                    console.error(
+                      "Lỗi xóa khóa học: ",
+                      err.response?.data || err.message
+                    );
+                    const errorMessage =
+                      err.response?.data || "Xóa khóa học không thành công";
+                    message.error(errorMessage);
                   });
               }}
             >
@@ -112,9 +137,9 @@ const ManageCourse = () => {
             <Button
               className="border-yellow-500 text-yellow-500 hover:!text-white hover:!bg-yellow-500 hover:!border-yellow-500"
               onClick={() => {
+                setIsUpdateModalCourseOpen(true);
+                setKhoaHoc(record);
                 console.log(record);
-                setIsModalUpdateOpen(true);
-                setDataKhoaHoc(record);
               }}
             >
               Sửa
@@ -125,52 +150,25 @@ const ManageCourse = () => {
     },
   ];
   return (
-    <div>
+    <div className="space-y-5">
       <Button
         onClick={() => {
-          setIsModalOpen(true);
-          setDisableUpdate(true);
+          setIsModalCourseOpen(true);
         }}
         size="large"
         variant="solid"
-        className="bg-green-500 text-white hover:!text-green-500 hover:!border-green-500 mb-6 "
+        className="bg-green-500 text-white hover:!text-green-500 hover:!border-green-500 "
       >
-        Thêm Khóa học
+        Thêm khóa học
       </Button>
-      <Modal
-        footer={null}
-        title="Thêm khóa học"
-        open={isModalOpen}
-        onCancel={() => {
-          setIsModalOpen(false);
-        }}
-      >
-        <FormAddCourse
-          layDanhSachKhoaHoc={layDanhSachKhoaHoc}
-          handleCloseModal={() => {
-            setIsModalOpen(false);
-          }}
-        />
-      </Modal>
-      <Modal
-        footer={null}
-        title="Sửa khóa học"
-        open={isModalUpdateOpen}
-        onCancel={() => {
-          setIsModalUpdateOpen(false);
-        }}
-      >
-        <FormUpdateCourse
-          layDanhSachKhoaHoc={layDanhSachKhoaHoc}
-          handleCloseModal={() => {
-            setIsModalUpdateOpen(false);
-          }}
-          layDataKhoaHoc={layDataKhoaHoc}
-        />
-      </Modal>
-
+      <Input.Search
+        onChange={handleChangeKey} // Sử dụng onChange thay cho handleChange
+        onSearch={(value) => setKey(value)}
+        value={key}
+        placeholder="Tìm kiếm khóa học......"
+      />
       <Table
-        dataSource={listKhoaHoc}
+        dataSource={value ? listSearch : listKhoaHoc}
         columns={columns}
         scroll={{ x: "max-content" }}
       />
@@ -188,6 +186,39 @@ const ManageCourse = () => {
           maKhoaHoc={maKhoaHoc}
           handleCloseModal={() => {
             setIsEnrollModalByCourseOpen(false);
+          }}
+        />
+      </Modal>
+      <Modal
+        width={700}
+        footer={null}
+        title="Ghi danh người dùng"
+        open={isModalCourseOpen}
+        onCancel={() => {
+          setIsModalCourseOpen(false);
+        }}
+      >
+        <FormAddCourse
+          layDanhSachKhoaHoc={layDanhSachKhoaHoc}
+          handleCloseModal={() => {
+            setIsModalCourseOpen(false);
+          }}
+        />
+      </Modal>
+      <Modal
+        width={700}
+        footer={null}
+        title="Ghi danh người dùng"
+        open={isUpdateModalCourseOpen}
+        onCancel={() => {
+          setIsUpdateModalCourseOpen(false);
+        }}
+      >
+        <FormUpdateCourse
+          khoaHoc={khoaHoc}
+          layDanhSachKhoaHoc={layDanhSachKhoaHoc}
+          handleCloseModal={() => {
+            setIsUpdateModalCourseOpen(false);
           }}
         />
       </Modal>

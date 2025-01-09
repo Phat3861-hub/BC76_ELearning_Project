@@ -1,32 +1,59 @@
 import React from "react";
-import { Button } from "antd";
-import { CaretRightOutlined } from "@ant-design/icons";
 import "./HeadBanner.scss";
 import { ButtonBlueP } from "../../components/Button/buttonCustom";
+import { Carousel } from "antd";
 
 const HeadBanner = () => {
+  const videoUrl = "/video/videobanner.mp4";
+  const bannerImg = "/img/banner.jpg";
+  const slides = [
+    {
+      title: "KHỞI ĐẦU SỰ NGHIỆP CỦA BẠN",
+      subtitle: "Trở thành lập trình chuyên nghiệp tại CyberSoft",
+      button1: "Xem khóa học",
+      button2: "Tư vấn học",
+    },
+    {
+      title: "NÂNG CAO KỸ NĂNG",
+      subtitle: "Thành thạo lập trình với lộ trình chi tiết",
+      button1: "Xem khóa học",
+      button2: "Tư vấn học",
+    },
+  ];
+
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
-    <div className=" head-banner">
-      <div className="flex  container">
-        <div className="lg:w-2/3 sm:w-1/2 z-10">
-          <div className="play-btn w-full h-full flex justify-center items-center">
-            <CaretRightOutlined className="text-white text-8xl  p-6 rounded-full  cursor-pointer bp-play-button" />
+    <Carousel autoplay arrows infinite={false}>
+      {slides.map((slide, index) => (
+        <div key={index} className="bgContainer">
+          <div className="overlay"></div>
+          <video src={videoUrl} autoPlay loop muted></video>
+          <div className="content-container">
+            <div className="banner-img">
+              <img src={bannerImg} alt="Banner" className="opacity-85" />
+            </div>
+            <div className="content space-y-1  md:space-y-10">
+              <h1 className="text-2xl sm:text-3xl md:text-5xl   font-bold">
+                {slide.title}
+              </h1>
+              <p className="text-2xl sm:text-4xl md:text-5xl   font-bold uppercase">
+                {slide.subtitle}
+              </p>
+              <div className="flex items-center space-x-3">
+                <ButtonBlueP content={slide.button1} />
+
+                <ButtonBlueP content={slide.button2} />
+              </div>
+            </div>
           </div>
         </div>
-        <div className="content lg:w-1/3 sm:w-1/2 z-10 flex flex-col  justify-center gap-10 ">
-          <h2 className="lg:text-5xl sm:text-4xl pt-2 font-semibold bp-color space-y-3">
-            <p>KHỞI ĐẦU </p> <p>SỰ NGHIỆP</p> <p>CỦA BẠN</p>
-          </h2>
-          <p className="text-white font-medium lg:text-3xl sm:text-2xl">
-            Trở thành lập trình chuyên nghiệp tại CyberSoft
-          </p>
-          <div className="space-x-5">
-            <ButtonBlueP content={"Xem Khóa Học"}></ButtonBlueP>
-            <ButtonBlueP content={"Tư Vấn Học"}></ButtonBlueP>
-          </div>
-        </div>
-      </div>
-    </div>
+      ))}
+    </Carousel>
   );
 };
 

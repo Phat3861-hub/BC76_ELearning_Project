@@ -8,7 +8,9 @@ const CourseDetailInfo = ({ hinhAnh, moTa, tenKhoaHoc, maKhoaHoc }) => {
       <div className="container">
         <div className="lg:flex ">
           <CourseDetailLeft hinhAnh={hinhAnh} moTa={moTa} />
-          <CourseDetailRight tenKhoaHoc={tenKhoaHoc} />
+          <div className="lg:sticky lg:top-32 lg:self-start">
+            <CourseDetailRight tenKhoaHoc={tenKhoaHoc} />
+          </div>
         </div>
       </div>
     </div>

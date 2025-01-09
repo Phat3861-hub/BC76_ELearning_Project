@@ -1,33 +1,107 @@
-.head-banner {
-  background-image: url("https://cybersoft.edu.vn/wp-content/uploads/2019/02/IMG_2107.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 500px;
+.bgContainer {
+  width: 100%;
+  height: 80vh;
   position: relative;
-  &::before {
+
+  .overlay {
     position: absolute;
-    content: "";
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(7, 7, 7, 0.84);
-    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .content-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 100%;
+    text-align: left;
+
+    .banner-img {
+      flex: 1;
+      img {
+        border-radius: 50%;
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        object-fit: contain;
+        animation: rotate-back-and-forth 3s infinite ease-in-out;
+      }
+    }
+
+    .content {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+      color: white;
+
+      h1,
+      p {
+        text-align: left;
+      }
+      h1 {
+        background: linear-gradient(
+          to bottom,
+          #df3ef8,
+          #227df9
+        ); /* Gradient background */
+        -webkit-background-clip: text; /* Clip gradient to text (for WebKit-based browsers) */
+        background-clip: text; /* Standard property for future compatibility (currently mostly supported in WebKit browsers) */
+        -webkit-text-fill-color: transparent; /* Make the text color transparent */
+      }
+    }
   }
 }
 
-@media (max-width: 480px) {
-  .head-banner {
-    padding-top: 50px;
-    .play-btn {
-      display: none;
-    }
-    .content {
-      text-align: center;
-      width: 100%;
-      h2 {
-        font-size: 35px;
+@keyframes rotate-back-and-forth {
+  0% {
+    transform: rotate(-5deg); /* Rotate to the left */
+  }
+  50% {
+    transform: rotate(5deg); /* Rotate to the right */
+  }
+  100% {
+    transform: rotate(-5deg); /* Back to the left */
+  }
+}
+@media screen and (max-width: 768px) {
+  .bgContainer {
+    height: 50vh;
+
+    .content-container {
+      flex-direction: column;
+
+      .banner-img {
+        flex: none;
+        img {
+          display: none;
+        }
+      }
+
+      .content {
+        align-items: center;
+        text-align: center;
+        h1,
+        p {
+          text-align: center;
+        }
       }
     }
   }

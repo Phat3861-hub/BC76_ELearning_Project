@@ -1,0 +1,72 @@
+.StudentThink {
+  .imageWrapper {
+    position: relative; // Đảm bảo lớp phủ nằm trên hình ảnh
+    overflow: hidden; // Ẩn phần lớp phủ tràn ra ngoài
+    &:hover {
+      &::before {
+        left: 100%;
+      }
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%; // Ban đầu lớp phủ nằm ngoài khung bên trái
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.5) 0%,
+        /* Màu vàng nhạt */ rgba(255, 255, 255, 0) 50%,
+        /* Màu trắng trong suốt */ rgba(255, 255, 255, 0.5) 100%
+          /* Màu vàng nhạt */
+      );
+      // Hiệu ứng giống gương
+      transform: skewX(-30deg); // Tạo góc xiên cho lớp phủ
+      transition: all 0.5s ease-in-out; // Hiệu ứng mượt khi di chuyển
+    }
+
+    .bgDark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.2); // Lớp phủ tối màu đen
+      transition: opacity 0.5s ease; // Hiệu ứng mờ dần
+      opacity: 0; // Ẩn lớp phủ mặc định
+      z-index: 1; // Đảm bảo lớp phủ nằm trên hình ảnh
+    }
+
+    &:hover .bgDark {
+      opacity: 1; // Hiển thị lớp phủ khi hover
+    }
+
+    .btn_search {
+      position: absolute;
+      top: 50%; // Đưa nút về trung tâm theo trục Y
+      left: 50%; // Đưa nút về trung tâm theo trục X
+      transform: translate(-50%, -50%); // Căn chỉnh hoàn toàn vào giữa
+      background-color: rgba(255, 255, 255, 0.8); // Nền nút tìm kiếm
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%; // Hình tròn
+      transition: opacity 0.5s ease, transform 0.5s ease; // Hiệu ứng mờ và di chuyển
+      opacity: 0; // Ẩn nút mặc định
+      z-index: 2; // Nút nằm trên lớp phủ tối
+    }
+
+    &:hover .btn_search {
+      opacity: 1; // Hiển thị nút khi hover
+      transform: translate(-50%, -50%) scale(1.2); // Phóng to nhẹ nút tìm kiếm
+    }
+
+    i {
+      color: #000; // Màu biểu tượng
+      font-size: 16px; // Kích thước biểu tượng
+    }
+  }
+}

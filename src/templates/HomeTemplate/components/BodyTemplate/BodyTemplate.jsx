@@ -9,20 +9,23 @@ import CyberDetail from "../../../../pages/Body/CyberDetail";
 import StartCareer from "../../../../pages/Body/StartCareer";
 import StudentComment from "../../../../pages/Body/StudentComment";
 import Contact from "../../../../pages/Body/Contact";
+import CoursePopular from "../../../../pages/Body/CoursePopular";
 
 const BodyTemplate = () => {
   return (
-    <div className="pt-24">
+    <>
+      {" "}
       <HeadBanner />
       <Company />
       <Count />
       <Course />
+      <CoursePopular />
       <CyberDetail />
       <StartCareer />
       <StudentComment />
       <Contact />
       <NewPostCarousel />
-    </div>
+    </>
   );
 };
 
