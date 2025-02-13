@@ -27,12 +27,19 @@ const ManageCourse = () => {
     KhoaHocService.getDanhSachKhoaHoc()
       .then((res) => {
         console.log(res);
-        setListKhoaHoc(res.data);
+        // Chuyển đổi ngày từ định dạng "DD/MM/YYYY" thành "YYYY-MM-DD"
+        const sortedData = res.data.sort((a, b) => {
+          const dateA = a.ngayTao.split("/").reverse().join("-"); // "DD/MM/YYYY" -> "YYYY-MM-DD"
+          const dateB = b.ngayTao.split("/").reverse().join("-");
+          return new Date(dateB) - new Date(dateA); // So sánh 2 ngày
+        });
+        setListKhoaHoc(sortedData);  // Cập nhật lại listKhoaHoc với dữ liệu đã sắp xếp
       })
       .catch((err) => {
         console.log(err);
       });
   };
+  
 
   useEffect(() => {
     layDanhSachKhoaHoc();

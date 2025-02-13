@@ -72,7 +72,12 @@ const FormAddCourse = ({ handleCloseModal, layDanhSachKhoaHoc }) => {
       taiKhoanNguoiTao: dataUser.taiKhoan,
     },
     validationSchema: Yup.object({
-      maKhoaHoc: Yup.string().required("Mã khóa học không được để trống"),
+      maKhoaHoc: Yup.string()
+        .required("Mã khóa học không được để trống")
+        .matches(
+          /^[A-Za-z0-9]+$/,
+          "Mã khóa học không được có ký tự đặc biệt hoặc khoảng trống"
+        ), // Kiểm tra không có ký tự đặc biệt và khoảng trống
       tenKhoaHoc: Yup.string().required("Tên khóa học không được để trống"),
       moTa: Yup.string().required("Mô tả không được để trống"),
       maNhom: Yup.string().required("Mã nhóm không được để trống"),

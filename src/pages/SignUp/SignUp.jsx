@@ -17,7 +17,6 @@ const SignUp = () => {
         matKhau: "",
         hoTen: "",
         soDT: "",
-        maNhom: "GP01",
         email: "",
       },
       onSubmit: (values) => {
@@ -44,7 +43,6 @@ const SignUp = () => {
         soDT: Yup.string()
           .matches(/^\+?(84|0)[35789]\d{8}$/, "Số điện thoại không hợp lệ!")
           .required("Vui lòng không bỏ trống số điện thoại!"),
-        maNhom: Yup.string().required("Vui lòng chọn mã nhóm!"),
       }),
     });
 
@@ -149,23 +147,6 @@ const SignUp = () => {
                 />
                 {errors.soDT && touched.soDT && (
                   <p className="text-red-500 text-xs mt-1">{errors.soDT}</p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="maNhom" className="block text-sm font-medium">
-                  Mã nhóm
-                </label>
-                <Input
-                  name="maNhom"
-                  value={values.maNhom}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  placeholder="Vui lòng nhập mã nhóm"
-                  className="w-full mt-1 border border-gray-300 rounded-md py-2 px-3"
-                />
-                {errors.maNhom && touched.maNhom && (
-                  <p className="text-red-500 text-xs mt-1">{errors.maNhom}</p>
                 )}
               </div>
 
