@@ -26,7 +26,10 @@ const ManageUser = () => {
   const [taiKhoan, setTaiKhoan] = useState("");
   const [key, setKey] = useState("");
   const [value] = useDebounce(key, 1000);
-
+  // Hàm xử lý thay đổi giá trị tìm kiếm (key)
+  const handleChangeKey = (event) => {
+    setKey(event.target.value);
+  };
   const layDanhSachNguoiDung = () => {
     nguoiDungService
       .layDanhSachNguoiDung()
@@ -42,10 +45,6 @@ const ManageUser = () => {
   useEffect(() => {
     layDanhSachNguoiDung();
   }, []);
-  // Hàm xử lý thay đổi giá trị tìm kiếm (key)
-  const handleChangeKey = (event) => {
-    setKey(event.target.value);
-  };
 
   useEffect(() => {
     if (value) {
@@ -62,6 +61,7 @@ const ManageUser = () => {
       setListSearch([]);
     }
   }, [value]);
+
   const columns = [
     {
       title: "Tài khoản",
@@ -163,7 +163,6 @@ const ManageUser = () => {
               onClick={() => {
                 setIsUpdateModalOpen(true);
                 setTaiKhoan(record);
-                console.log(record);
               }}
             >
               Sửa
@@ -179,6 +178,7 @@ const ManageUser = () => {
       <Button
         onClick={() => {
           setIsModalOpen(true);
+          layDanhSachNguoiDung();
         }}
         size="large"
         variant="solid"
@@ -244,7 +244,6 @@ const ManageUser = () => {
           }}
         />
       </Modal>
-      ;
     </div>
   );
 };

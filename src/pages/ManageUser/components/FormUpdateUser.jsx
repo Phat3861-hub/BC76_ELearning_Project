@@ -22,6 +22,7 @@ const FormUpdateUser = ({ taiKhoanchon, layDanhSachNguoiDung }) => {
       maLoaiNguoiDung: taiKhoanchon.maLoaiNguoiDung || "",
       maNhom: "GP01",
       email: taiKhoanchon.email || "",
+      matKhau: taiKhoanchon.matKhau || "",
     },
     enableReinitialize: true, // Để cập nhật giá trị khi thay đổi initialValues
     onSubmit: (values) => {
@@ -116,8 +117,21 @@ const FormUpdateUser = ({ taiKhoanchon, layDanhSachNguoiDung }) => {
           </div>
 
           <div>
+            <label className="text-lg font-semibold" htmlFor="taiKhoan">
+              Mật khẩu
+            </label>
+            <Input
+              name="matKhau"
+              value={values.matKhau}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              disabled={!isEditable}
+            />
+          </div>
+
+          <div>
             <label className="text-lg font-semibold" htmlFor="maLoaiNguoiDung">
-              Mã loại người dùng
+              Loại người dùng
             </label>
             <SelectCustom
               value={values.maLoaiNguoiDung == "GV" ? "Giáo vụ" : "Học viên"}
@@ -134,7 +148,6 @@ const FormUpdateUser = ({ taiKhoanchon, layDanhSachNguoiDung }) => {
                   label: "Học viên",
                 },
               ]}
-              labelContent={"Chọn loại người dùng"}
               disabled={!isEditable}
             />
           </div>
