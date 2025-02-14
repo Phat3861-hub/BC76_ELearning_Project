@@ -51,7 +51,7 @@ export const nguoiDungService = {
     });
   },
   layDanhSachNguoiDung: async () => {
-    return await http.get("/QuanLyNguoiDung/LayDanhSachNguoiDung");
+    return await http.get("/QuanLyNguoiDung/TimKiemNguoiDung");
   },
   xoaNguoiDung: (taiKhoan) => {
     return http.delete(`/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${taiKhoan}`, {

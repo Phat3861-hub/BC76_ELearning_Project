@@ -127,6 +127,9 @@ const FormUpdateUser = ({ taiKhoanchon, layDanhSachNguoiDung }) => {
               onBlur={handleBlur}
               disabled={!isEditable}
             />
+            {touched.matKhau && errors.matKhau && (
+              <div className="text-red-500">{errors.matKhau}</div>
+            )}
           </div>
 
           <div>
