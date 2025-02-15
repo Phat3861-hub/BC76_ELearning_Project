@@ -13,7 +13,12 @@ const ListJobByCategory = ({ maDanhMuc, tenDanhMuc, soTrang = 8 }) => {
   useEffect(() => {
     KhoaHocService.getDanhSachKhoaHocTheoDanhMuc(maDanhMuc)
       .then((res) => {
-        setListDanhSachKhoaHocTheoDanhMuc(res.data); // Giả sử API trả về dữ liệu trong `res.data`
+        const sortedData = res.data.sort((a, b) => {
+          const dateA = a.ngayTao.split("/").reverse().join("-"); // "DD/MM/YYYY" -> "YYYY-MM-DD"
+          const dateB = b.ngayTao.split("/").reverse().join("-");
+          return new Date(dateB) - new Date(dateA); // So sánh 2 ngày
+        });
+        setListDanhSachKhoaHocTheoDanhMuc(sortedData); // Giả sử API trả về dữ liệu trong `res.data`
       })
       .catch((err) => {
         console.log(err);

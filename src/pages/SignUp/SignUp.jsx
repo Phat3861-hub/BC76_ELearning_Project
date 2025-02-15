@@ -35,7 +35,7 @@ const SignUp = () => {
       },
       validationSchema: Yup.object({
         taiKhoan: Yup.string().required("Vui lòng không bỏ trống tài khoản!"),
-        matKhau: Yup.string().required("Vui lòng không bỏ trống mật khẩu!"),
+        matKhau: Yup.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự.").required("Vui lòng không bỏ trống mật khẩu!"),
         hoTen: Yup.string().required("Vui lòng không bỏ trống họ tên!"),
         email: Yup.string()
           .email("Vui lòng nhập đúng định dạng email!")
