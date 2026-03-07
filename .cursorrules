@@ -1,0 +1,20 @@
+# CHUNG
+- Ngôn ngữ: Tiếng Việt.
+- Code: Viết đầy đủ (no lazy coding), ưu tiên Clean Code.
+- Luôn giải thích ngắn gọn logic phức tạp (để phục vụ báo cáo/đồ án).
+
+# FLUTTER
+- UI: Dùng `const` tối đa, tách Widget nhỏ nếu file quá dài.
+- Logic: Không viết xử lý nghiệp vụ trong `build()`, dùng `async/await` chuẩn.
+
+# C# & JAVA
+- Naming: Tuân thủ chuẩn (C# PascalCase, Java camelCase).
+- Database: Dùng `PreparedStatement`/Parameter để chống Injection. Luôn đóng kết nối.
+
+# PYTHON (AI/CV)
+- Dùng Type Hinting (ví dụ: `def run(img: np.ndarray)`).
+- Comment rõ các tham số điều chỉnh thuật toán.
+
+
+
+
