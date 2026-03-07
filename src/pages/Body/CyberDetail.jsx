@@ -93,14 +93,14 @@ const CyberDetail = () => {
       </div>
       <div className="py-10 townBanner ">
         <div className="z-10 container">
-          <div className="text-center  md:text-right space-y-2 ">
+          <div className="text-center   space-y-2 ">
             <h2 className=" bp-color md:text-6xl sm:text-5xl font-bold">
               Điểm ưu việt
             </h2>
             <p className="text-xl font-bold">CHỈ CÓ TẠI CYBERSOFT</p>
           </div>
         </div>
-        <div className="hidden md:inline-block mt-5 tab-content">
+        <div className="hidden md:inline-block mt-5 tab-content w-full">
           <Tabs
             centered
             tabBarGutter={0}
